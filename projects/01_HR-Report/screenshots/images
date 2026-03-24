@@ -1,1 +1,105 @@
+# 📊 [HR-Report]
 
+> An exploratory Power BI dashboard analyzing an HR database across employee headcount, 
+turnover & attrition, and hiring & performance metrics to uncover workforce trends and patterns.
+
+---
+
+## 🎯 Objective
+Analyze patterns and performance insights by introducing KPIs and giving good insights to take action. 
+---
+
+## 📁 Data Source
+
+| Detail | Info |
+|--------|------|
+| Source | Excel / CSV / Public dataset |
+| Rows | ~310 records |
+| Date Range | e.g. Jan 2006 – Jul 2018 |
+| Notes | Anonymized / Sample data / Kaggle Database|
+
+[data source:](https://www.kaggle.com/datasets/rhuebner/human-resources-data-set)
+---
+
+## 🔧 Data Model
+
+Describe the model structure briefly.
+
+- **Fact table(s):** e.g. `fact_sales`
+- **Dimension tables:** e.g. `dim_date`, `dim_product`, `dim_region`
+- **Schema type:** 1:1
+
+📷 See `model/data_model_description.md` or `screenshots/data_model.png` for a visual.
+
+---
+
+## 📐 Key DAX Measures
+
+```dax
+-- Example measure
+Total Sales = SUM(fact_sales[SalesAmount])
+
+-- YTD Sales
+Sales YTD = TOTALYTD([Total Sales], dim_date[Date])
+``` Avg Performance
+Avg Performance = AVERAGE(HRDataset_v14[PerfScoreID])
+--- Active Headcount Monthly
+Active Headcount Monthly = 
+CALCULATE(
+    COUNTROWS(HRDataset_v14),
+    HRDataset_v14[DateofHire] <= MAX(Calendar[Date]),
+    OR(
+        ISBLANK(HRDataset_v14[DateofTermination]),
+        HRDataset_v14[DateofTermination] > MAX(Calendar[Date])
+    )
+)
+
+--- Growth Headcount Rate 
+Growth Headcount Rate % = DIVIDE([Active Headcount Monthly]-[Previous Period], [Previous Period],  "BLANK")
+
+
+
+## 📊 Dashboard Highlights
+
+![Dashboard Overview](./screenshots/dashboard_overview.png)
+
+**Key visuals included:**
+- Overview KPI cards (Total Revenue, Units Sold, Avg Order Value)
+- Monthly trend line chart
+- Region breakdown map
+- Product category bar chart
+- Slicer panel for date, region, and category filtering
+
+---
+
+## 💡 Key Insights
+
+- Insight 1: e.g. *"Q4 showed a 23% increase in sales driven by Region X."*
+- Insight 2: e.g. *"Product category Y underperformed relative to targets."*
+- Insight 3: e.g. *"Mobile channel grew 40% YoY."*
+
+---
+
+## 🧰 Tools Used
+
+- Power BI Desktop
+- Power Query (M)
+- DAX
+- [Excel / CSV / other data source]
+
+---
+
+## 📂 Files
+
+| File | Description |
+|------|-------------|
+| `HR Analytics Dashboard - Workforce Performance.pbix` | Power BI report file |
+| `data/HRDataset_v14.csv` | Sample/anonymized source data |
+| `model/data_model_description.md` | Data model documentation |
+| `screenshots/` | Dashboard & model screenshots |
+
+---
+
+## 🔗 Back to Portfolio
+
+[← Return to main portfolio](../../README.md)
